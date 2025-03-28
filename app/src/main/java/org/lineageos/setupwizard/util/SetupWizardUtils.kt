@@ -31,6 +31,7 @@ import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.telephony.TelephonyManager.PHONE_TYPE_GSM
 import android.util.Log
+import com.android.internal.util.crdroid.Utils
 import com.google.android.setupcompat.util.ResultCodes.RESULT_SKIP
 import java.io.File
 import lineageos.hardware.LineageHardwareManager
@@ -288,13 +289,19 @@ object SetupWizardUtils {
             LineageSettings.System.getIntForUser(
                 context.contentResolver,
                 LineageSettings.System.FORCE_SHOW_NAVBAR,
-                0,
+                if (Utils.hasNavbarByDefault(context)) 1 else 0,
                 UserHandle.USER_CURRENT,
             ) != 0
         if (enabled != virtualKeysEnabled) {
             LineageSettings.System.putIntForUser(
                 context.contentResolver,
                 LineageSettings.System.FORCE_SHOW_NAVBAR,
+                if (enabled) 1 else 0,
+                UserHandle.USER_CURRENT,
+            )
+            Settings.System.putIntForUser(
+                context.contentResolver,
+                Settings.System.HARDWARE_KEYS_DISABLE,
                 if (enabled) 1 else 0,
                 UserHandle.USER_CURRENT,
             )

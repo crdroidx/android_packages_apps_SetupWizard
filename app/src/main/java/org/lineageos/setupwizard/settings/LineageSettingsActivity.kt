@@ -16,6 +16,7 @@ import android.text.style.StyleSpan
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import com.android.internal.util.crdroid.Utils
 import lineageos.hardware.LineageHardwareManager
 import lineageos.providers.LineageSettings
 import org.lineageos.setupwizard.DISABLE_NAV_KEYS
@@ -82,7 +83,7 @@ class LineageSettingsActivity : BaseSetupWizardActivity() {
                 LineageSettings.System.getIntForUser(
                     contentResolver,
                     LineageSettings.System.FORCE_SHOW_NAVBAR,
-                    0,
+                    if (Utils.hasNavbarByDefault(this)) 1 else 0,
                     UserHandle.USER_CURRENT,
                 ) != 0
         } else {
@@ -117,7 +118,7 @@ class LineageSettingsActivity : BaseSetupWizardActivity() {
                 LineageSettings.System.getIntForUser(
                     contentResolver,
                     LineageSettings.System.FORCE_SHOW_NAVBAR,
-                    0,
+                    if (Utils.hasNavbarByDefault(this)) 1 else 0,
                     UserHandle.USER_CURRENT,
                 ) != 0
             val checked =
